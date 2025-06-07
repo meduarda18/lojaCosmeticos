@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from '../pages/home/Home'
-import Produtos from '../pages/produtos/Produtos'
+import HomePage from '../pages/home/HomePage'
+import ProdutosPage from '../pages/produtos/ProdutosPage'
 
 export default function Index() {
     const Stack = createNativeStackNavigator();
@@ -9,8 +9,8 @@ export default function Index() {
     return(
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name='Home' component={Home}/>
-                <Stack.Screen name='Produtos' component={Produtos}/>
+                <Stack.Screen name='Loja Cosméticos' component={HomePage}/>
+                <Stack.Screen name='Produtos' component={ProdutosPage}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
