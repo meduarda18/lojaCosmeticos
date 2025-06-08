@@ -2,6 +2,7 @@ import React from 'react';
 import {View, TextInput, Text, SectionList, TouchableOpacity} from 'react-native';
 import styles from './EstoquePageStyle';
 import {Feather} from "@expo/vector-icons";
+import {useNavigation} from "@react-navigation/native";
 
 const dadosEstoque = [
     {id:'1', nome:'Sabonetes Algodão TodoDia'},
@@ -12,6 +13,9 @@ const dadosEstoque = [
 ];
 
 export default function EstoqueContent() {
+
+    const navigation = useNavigation();
+
     return (
         <View style={styles.container}>
             <View style={styles.searchContainer}>
@@ -27,22 +31,30 @@ export default function EstoqueContent() {
                 sections={[{title: 'Estoque', data: dadosEstoque}]}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <View style={styles.itemContainer}>
+                    <TouchableOpacity
+                        style={styles.itemContainer}
+                        onPress={() => navigation.navigate('Detalhes do Produto', {id: item.id})}
+                    >
                         <Text style={styles.itemText}>{item.nome}</Text>
                         <View style={styles.iconsContainer}>
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Editar Produto', {id: item.id})}
+                            >
                                 <Feather name="edit" size={20} color="#D1A6FD" />
                             </TouchableOpacity>
                             <TouchableOpacity style={{ marginLeft: 10 }}>
                                 <Feather name="trash-2" size={20} color="#D1A6FD" />
                             </TouchableOpacity>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 )}
                 showsVerticalScrollIndicator={false}
             />
 
-            <TouchableOpacity style={styles.fab}>
+            <TouchableOpacity
+                style={styles.fab}
+                onPress={() => navigation.navigate('Cadastrar Produto')}
+            >
                 <Feather name="plus" size={30} color="white" />
             </TouchableOpacity>
         </View>
