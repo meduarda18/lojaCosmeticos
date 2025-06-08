@@ -12,7 +12,7 @@ function HomePage(){
             <Image source={Logo} style={styles.logo} />
             <TouchableOpacity
                 style={styles.botao}
-                onPress={() => navigation.navigate("Produtos")}
+                onPress={() => navigation.navigate("Estoque")}
             >
                 <Text style={styles.textoBotao}>Entrar</Text>
             </TouchableOpacity>

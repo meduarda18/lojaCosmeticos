@@ -1,13 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        paddingTop: '8%',
-    },
     tabs: {
         flexDirection: 'row',
         marginBottom: 12
@@ -34,10 +27,5 @@ export default StyleSheet.create({
     tabTextInactive: {
         textAlign: 'center',
         color: '#7F5DA3'
-    },
-    input: {
-        backgroundColor: '#FAF5FF',
-        width: 400,
-        height: 50,
     }
 });
