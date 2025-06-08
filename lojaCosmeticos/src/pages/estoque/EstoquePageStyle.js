@@ -3,41 +3,55 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
         backgroundColor: '#fff',
-        paddingTop: '8%',
+        paddingHorizontal: 16,
+        paddingTop: 20,
     },
-    tabs: {
+    searchContainer: {
         flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FAF5FF',
+        borderRadius: 20,
+        paddingHorizontal: 16,
+        height: 50,
         marginBottom: 12
     },
-    tabActive: {
+    searchInput: {
         flex: 1,
-        backgroundColor: '#D1A6FD',
-        padding: 10,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10
+        fontSize: 16,
+        color: '#333',
     },
-    tabInactive: {
-        flex: 1,
-        backgroundColor: '#E6D6FB',
-        padding: 10,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10
-    },
-    tabTextActive: {
-        textAlign: 'center',
-        color: 'white',
-        fontWeight: 'bold'
-    },
-    tabTextInactive: {
-        textAlign: 'center',
-        color: '#7F5DA3'
-    },
-    input: {
+    itemContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: '#FAF5FF',
-        width: 400,
-        height: 50,
+        padding: 12,
+        borderRadius: 10,
+        marginBottom: 8,
+        justifyContent: 'space-between',
+    },
+    itemText: {
+        flex: 1,
+        color: '#333'
+    },
+    iconsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    fab: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        backgroundColor: '#D1A6FD',
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 5,
     }
 });

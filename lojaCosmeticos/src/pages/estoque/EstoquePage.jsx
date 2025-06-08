@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import EstoqueContent from './EstoqueContent';
 import TabsHeader from "../../componentes/TabsHeader";
-import {Input} from "react-native-elements";
 import VendasPage from "../vendas/VendasPage";
 
 export default function EstoquePage() {
