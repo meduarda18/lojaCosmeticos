@@ -1,113 +1,95 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, Image } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import styles from './EditarProdutoStyle';
-import { Ionicons } from '@expo/vector-icons';
-
-const dadosEstoque = [
-  {
-    id: '1',
-    codigo: '15098776',
-    nome: 'Sabonetes Algodão TodoDia',
-    quantidade: 15,
-    preco: 25.00,
-    descricao:
-      'Sabonete em barra com aroma suave de algodão, promove maciez e hidratação para a pele.',
-    imagem: 'https://a-static.mlcdn.com.br/1500x1500/caixa-de-sabonete-hidratante-em-barra-natura-todo-dia-algodao-5-unidades-refrescante/jpabrasilsilva/5392216e7aca11ee9d0d4201ac185040/bf2e9b5ed2b4488f09a3bb97e72d2455.jpeg',
-  },
-  {
-    id: '2',
-    codigo: '15098777',
-    nome: 'Sabonetes Alecrim TodoDia',
-    quantidade: 12,
-    preco: 27.50,
-    descricao:
-      'Sabonete com aroma refrescante de alecrim, ideal para energizar e limpar a pele suavemente.',
-    imagem: 'https://a-static.mlcdn.com.br/1500x1500/caixa-de-sabonete-hidratante-em-barra-natura-todo-dia-algodao-5-unidades-refrescante/jpabrasilsilva/5392216e7aca11ee9d0d4201ac185040/bf2e9b5ed2b4488f09a3bb97e72d2455.jpeg',
-  },
-  {
-    id: '3',
-    codigo: '15098778',
-    nome: 'Sabonetes Amora TodoDia',
-    quantidade: 20,
-    preco: 26.00,
-    descricao:
-      'Sabonete com fragrância doce de amora, que deixa a pele perfumada e hidratada.',
-    imagem: 'https://a-static.mlcdn.com.br/1500x1500/caixa-de-sabonete-hidratante-em-barra-natura-todo-dia-algodao-5-unidades-refrescante/jpabrasilsilva/5392216e7aca11ee9d0d4201ac185040/bf2e9b5ed2b4488f09a3bb97e72d2455.jpeg',
-  },
-  {
-    id: '4',
-    codigo: '15098779',
-    nome: 'Sabonetes Frutas Vermelhas TodoDia',
-    quantidade: 18,
-    preco: 28.00,
-    descricao:
-      'Sabonete com aroma frutado de frutas vermelhas, para uma pele limpa e perfumada o dia todo.',
-    imagem: 'https://a-static.mlcdn.com.br/1500x1500/caixa-de-sabonete-hidratante-em-barra-natura-todo-dia-algodao-5-unidades-refrescante/jpabrasilsilva/5392216e7aca11ee9d0d4201ac185040/bf2e9b5ed2b4488f09a3bb97e72d2455.jpeg',
-  },
-  {
-    id: '5',
-    codigo: '15098780',
-    nome: 'Sabonetes Ameixa TodoDia',
-    quantidade: 25,
-    preco: 29.00,
-    descricao:
-      'Sabonete com aroma delicado de ameixa, proporciona hidratação e sensação de frescor.',
-    imagem: 'https://a-static.mlcdn.com.br/1500x1500/caixa-de-sabonete-hidratante-em-barra-natura-todo-dia-algodao-5-unidades-refrescante/jpabrasilsilva/5392216e7aca11ee9d0d4201ac185040/bf2e9b5ed2b4488f09a3bb97e72d2455.jpeg',
-  },
-];
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  Image,
+  StyleSheet,
+} from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EditarProduto() {
   const navigation = useNavigation();
   const route = useRoute();
   const { id } = route.params;
 
-  const [codigo, setCodigo] = useState('');
-  const [nome, setNome] = useState('');
-  const [quantidade, setQuantidade] = useState('');
-  const [preco, setPreco] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [imagem, setImagem] = useState('');
+  const [codigo, setCodigo] = useState("");
+  const [nome, setNome] = useState("");
+  const [quantidade, setQuantidade] = useState("");
+  const [preco, setPreco] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [imagem, setImagem] = useState("");
 
   useEffect(() => {
-    const produto = dadosEstoque.find((item) => item.id === id);
-    if (produto) {
-      setCodigo(produto.codigo);
-      setNome(produto.nome);
-      setQuantidade(produto.quantidade.toString());
-      setPreco(produto.preco.toFixed(2).replace('.', ','));
-      setDescricao(produto.descricao || '');
-      setImagem(produto.imagem || '');
-    }
+    const carregarProduto = async () => {
+      try {
+        const dados = await AsyncStorage.getItem("produtos");
+        const lista = dados ? JSON.parse(dados) : [];
+        const produto = lista.find((item) => item.codigo === id);
+
+        if (produto) {
+          setCodigo(produto.codigo);
+          setNome(produto.nome);
+          setQuantidade(produto.quantidade.toString());
+          setPreco(produto.preco.toString().replace(".", ","));
+          setDescricao(produto.descricao || "");
+          setImagem(produto.imagem || "");
+        }
+      } catch (erro) {
+        console.error("Erro ao carregar produto para edição:", erro);
+      }
+    };
+
+    carregarProduto();
   }, [id]);
 
-  const handleSalvar = () => {
+  const handleSalvar = async () => {
     if (!codigo || !nome || !quantidade || !preco) {
-      Alert.alert('Erro', 'Preencha todos os campos obrigatórios.');
+      Alert.alert("Erro", "Preencha todos os campos obrigatórios.");
       return;
     }
 
-    const produtoAtualizado = {
-      codigo,
-      nome,
-      quantidade: parseInt(quantidade),
-      preco: parseFloat(preco.replace(',', '.')),
-      descricao,
-    };
+    try {
+      const dados = await AsyncStorage.getItem("produtos");
+      const lista = dados ? JSON.parse(dados) : [];
 
-    console.log('Produto atualizado:', produtoAtualizado);
-    Alert.alert('Sucesso', 'Produto atualizado com sucesso!');
-    navigation.goBack();
-  };
+      const index = lista.findIndex((item) => item.codigo === id);
+      if (index === -1) {
+        Alert.alert("Erro", "Produto não encontrado.");
+        return;
+      }
 
-  const handlePrecoChange = (texto) => {
-    const textoLimpo = texto.replace('R$', '').trim();
-    setPreco(textoLimpo);
+      lista[index] = {
+        ...lista[index],
+        codigo,
+        nome,
+        quantidade: parseInt(quantidade),
+        preco: parseFloat(preco.replace(",", ".")),
+        descricao,
+        imagem,
+      };
+
+      await AsyncStorage.setItem("produtos", JSON.stringify(lista));
+      Alert.alert("Sucesso", "Produto atualizado com sucesso!");
+      navigation.goBack();
+    } catch (erro) {
+      console.error("Erro ao salvar produto:", erro);
+      Alert.alert("Erro", "Não foi possível salvar as alterações.");
+    }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-      {imagem ? <Image source={{ uri: imagem }} style={styles.imagemProduto} /> : null}
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
+      {imagem ? (
+        <Image source={{ uri: imagem }} style={styles.imagemProduto} />
+      ) : null}
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Código</Text>
@@ -121,11 +103,7 @@ export default function EditarProduto() {
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Nome</Text>
-        <TextInput
-          style={styles.input}
-          value={nome}
-          onChangeText={setNome}
-        />
+        <TextInput style={styles.input} value={nome} onChangeText={setNome} />
       </View>
 
       <View style={styles.linha}>
@@ -144,8 +122,8 @@ export default function EditarProduto() {
           <TextInput
             style={styles.input}
             keyboardType="decimal-pad"
-            value={`R$ ${preco}`}
-            onChangeText={handlePrecoChange}
+            value={preco}
+            onChangeText={setPreco}
           />
         </View>
       </View>
@@ -168,3 +146,60 @@ export default function EditarProduto() {
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  imagemProduto: {
+    width: "100%",
+    height: 200,
+    marginBottom: 20,
+    borderRadius: 12,
+  },
+  inputContainer: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#7F5DA3",
+    marginBottom: 6,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#CCC",
+    borderRadius: 10,
+    padding: 10,
+    fontSize: 16,
+    backgroundColor: "#F5F5F5",
+  },
+  textArea: {
+    height: 100,
+    textAlignVertical: "top",
+  },
+  linha: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 10,
+  },
+  metade: {
+    flex: 1,
+  },
+  row: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+  botaoSalvar: {
+    backgroundColor: "#7F5DA3",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+  },
+  textoBotao: {
+    color: "#FFF",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+});
