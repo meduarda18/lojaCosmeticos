@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './CadastrarProdutoStyle';
+import {salvarProduto} from "../../storage/ProdutoStorage";
 
 export default function CadastrarProduto() {
   const navigation = useNavigation();
@@ -12,23 +13,28 @@ export default function CadastrarProduto() {
   const [preco, setPreco] = useState('');
   const [descricao, setDescricao] = useState('');
 
-  const handleSalvar = () => {
+  const handleSalvar = async () => {
     if (!codigo || !nome || !quantidade || !preco) {
       Alert.alert('Erro', 'Preencha todos os campos obrigatórios, incluindo o código.');
       return;
     }
 
     const novoProduto = {
-      codigo,                                  // adiciona código ao objeto
-      nome,
+      codigo: codigo.trim(),
+      nome: nome.trim(),
       quantidade: parseInt(quantidade),
       preco: parseFloat(preco),
-      descricao,
+      descricao: descricao.trim()
     };
 
-    console.log('Produto cadastrado:', novoProduto);
-    Alert.alert('Sucesso', 'Produto cadastrado com sucesso!');
-    navigation.goBack();
+    try {
+        await salvarProduto(novoProduto);
+        Alert.alert('Sucesso', 'Produto cadastrado com sucesso!');
+        navigation.goBack();
+    } catch (error){
+        console.error('Erro ao salvar produto', error);
+        Alert.alert('Erro', 'Falha ao salvar o produto. Tente novamente.');
+    }
   };
 
   return (
