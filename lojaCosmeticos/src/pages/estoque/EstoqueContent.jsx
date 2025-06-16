@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View, TextInput, Text, SectionList, TouchableOpacity, Alert} from 'react-native';
 import styles from './EstoquePageStyle';
 import {Feather} from "@expo/vector-icons";

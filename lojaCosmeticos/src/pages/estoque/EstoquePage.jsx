@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import EstoqueContent from './EstoqueContent';
 import TabsHeader from "../../componentes/TabsHeader";
-import VendasPage from "../vendas/VendasPage";
+import VendasContent from "../vendas/VendasContent";
 
 export default function EstoquePage() {
     const [abaAtiva, setAbaAtiva] = useState('estoque');
@@ -10,7 +10,7 @@ export default function EstoquePage() {
     return (
         <View style={{ flex: 1, paddingTop: 20 }}>
             <TabsHeader activeTab={abaAtiva} setActiveTab={setAbaAtiva} />
-            {abaAtiva === 'estoque' ? <EstoqueContent /> : <VendasPage />}
+            {abaAtiva === 'estoque' ? <EstoqueContent /> : <VendasContent />}
         </View>
     );
 }
