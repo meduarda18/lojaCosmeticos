@@ -6,6 +6,8 @@ import DetalhesProduto from "../pages/produto/DetalhesProduto";
 import EditarProduto from "../pages/produto/EditarProduto";
 import CadastrarProduto from "../pages/produto/CadastrarProduto";
 import CadastrarVenda from "../pages/vendas/venda/CadastrarVenda";
+import DetalhesVenda from "../pages/vendas/venda/DetalhesVenda";
+
 
 export default function Index() {
     const Stack = createNativeStackNavigator();
@@ -19,6 +21,7 @@ export default function Index() {
                 <Stack.Screen name='Editar Produto' component={EditarProduto} />
                 <Stack.Screen name='Cadastrar Produto' component={CadastrarProduto} />
                 <Stack.Screen name='Cadastrar Venda' component={CadastrarVenda} />
+                <Stack.Screen name='Detalhes da Venda' component={DetalhesVenda} />
             </Stack.Navigator>
         </NavigationContainer>
     );

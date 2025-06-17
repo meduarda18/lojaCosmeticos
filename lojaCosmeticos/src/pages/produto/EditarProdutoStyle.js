@@ -1,66 +1,58 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from "react-native";
 
 export default StyleSheet.create({
     container: {
-        padding: 20,
-        backgroundColor: '#fff',
-        flexGrow: 1,
-    },
-    botaoVoltar: {
-        marginBottom: 10,
-        alignSelf: 'flex-start',
+        padding: 16,
+        backgroundColor: "#fff",
     },
     imagemProduto: {
-        width: 200,
+        width: "100%",
         height: 200,
-        alignSelf: 'center',
-        resizeMode: 'contain',
         marginBottom: 20,
+        borderRadius: 12,
     },
-    titulo: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        alignSelf: 'center',
+    inputContainer: {
+        marginBottom: 16,
+    },
+    label: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "#7F5DA3",
+        marginBottom: 6,
     },
     input: {
         borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 6,
+        borderColor: "#CCC",
+        borderRadius: 10,
         padding: 10,
-        marginBottom: 10,
-        backgroundColor: '#f2f2f2',
-    },
-    linha: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    metade: {
-        width: '48%',
+        fontSize: 16,
+        backgroundColor: "#F5F5F5",
     },
     textArea: {
         height: 100,
-        textAlignVertical: 'top',
+        textAlignVertical: "top",
     },
-    botaoSalvar: {
-        backgroundColor: '#e0e0e0',
-        paddingVertical: 12,
-        borderRadius: 50,
-        alignItems: 'center',
-        marginTop: 20,
+    linha: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 10,
     },
-    textoBotao: {
-        fontWeight: 'bold',
+    metade: {
+        flex: 1,
     },
     row: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
+        marginTop: 20,
+        alignItems: "center",
     },
     botaoSalvar: {
-        backgroundColor: '#e0e0e0',
+        backgroundColor: "#7F5DA3",
         paddingVertical: 12,
-        paddingHorizontal: 25,
-        borderRadius: 50,
-        alignItems: 'center',
+        paddingHorizontal: 24,
+        borderRadius: 10,
+    },
+    textoBotao: {
+        color: "#FFF",
+        fontWeight: "bold",
+        fontSize: 16,
     },
 });

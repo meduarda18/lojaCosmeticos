@@ -19,18 +19,27 @@ export default function CadastrarVenda() {
     const [data, setData] = useState(new Date().toISOString().split('T')[0]);
     const [produtos, setProdutos] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalPagamentoVisible, setModalPagamentoVisible] = useState(false);
     const [itemSelecionando, setItemSelecionando] = useState(null);
+    const [formaPagamento, setFormaPagamento] = useState('');
 
     const [itens, setItens] = useState([
         { produtoId: '', produtoReferencia: '', qtd: '', precoUnitario: '' }
     ]);
+
+    const formasPagamento = [
+        'Cartão crédito',
+        'Cartão débito',
+        'Pix',
+        'Dinheiro'
+    ];
 
     useEffect(() => {
         async function carregarProdutos() {
             const lista = await listarProdutos();
             setProdutos(lista);
         }
-        carregarProdutos();
+        carregarProdutos().then();
     }, []);
 
     const calcularValorTotal = () => {
@@ -58,6 +67,11 @@ export default function CadastrarVenda() {
         setModalVisible(false);
     };
 
+    const selecionarFormaPagamento = (pagamento) => {
+        setFormaPagamento(pagamento);
+        setModalPagamentoVisible(false);
+    };
+
     const handleAdicionarItem = () => {
         setItens([...itens, { produtoId: '', produtoReferencia: '', qtd: '', precoUnitario: '' }]);
     };
@@ -74,11 +88,17 @@ export default function CadastrarVenda() {
             return;
         }
 
+        if (!formaPagamento) {
+            Alert.alert('Erro', 'Selecione uma forma de pagamento.');
+            return;
+        }
+
         const valorTotal = calcularValorTotal();
         const novaVenda = {
             id: Date.now().toString(),
             data,
             valorTotal,
+            formaPagamento,
             itemsVenda: itens.map(item => ({
                 id: Date.now().toString() + Math.random().toString(36).substring(2, 5),
                 produtoReferencia: item.produtoReferencia,
@@ -138,6 +158,20 @@ export default function CadastrarVenda() {
                 </View>
             ))}
 
+            <TouchableOpacity
+                style={styles.input}
+                onPress={() => setModalPagamentoVisible(true)}
+            >
+                <Text style={{ color: formaPagamento ? '#000' : '#aaa' }}>
+                    {formaPagamento || 'Selecionar Forma de Pagamento'}
+                </Text>
+            </TouchableOpacity>
+
+            <View style={styles.totalContainer}>
+                <Text style={styles.totalLabel}>Total:</Text>
+                <Text style={styles.totalValue}>R$ {calcularValorTotal().toFixed(2)}</Text>
+            </View>
+
             <TouchableOpacity style={styles.botaoAdicionar} onPress={handleAdicionarItem}>
                 <Text style={styles.textoBotao}>+ Adicionar Item</Text>
             </TouchableOpacity>
@@ -164,6 +198,30 @@ export default function CadastrarVenda() {
                             )}
                         />
                         <TouchableOpacity onPress={() => setModalVisible(false)}>
+                            <Text style={styles.modalFechar}>Cancelar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* Modal de seleção de forma de pagamento */}
+            <Modal visible={modalPagamentoVisible} animationType="slide" transparent={true}>
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalTitulo}>Selecione a Forma de Pagamento</Text>
+                        <FlatList
+                            data={formasPagamento}
+                            keyExtractor={(item) => item}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    style={styles.modalItem}
+                                    onPress={() => selecionarFormaPagamento(item)}
+                                >
+                                    <Text style={styles.modalItemText}>{item}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                        <TouchableOpacity onPress={() => setModalPagamentoVisible(false)}>
                             <Text style={styles.modalFechar}>Cancelar</Text>
                         </TouchableOpacity>
                     </View>

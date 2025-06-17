@@ -89,5 +89,21 @@ export default StyleSheet.create({
         color: '#D00',
         textAlign: 'center',
         fontWeight: 'bold',
-    }
+    },
+    totalContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginVertical: 16,
+        paddingHorizontal: 8,
+    },
+    totalLabel: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#7F5DA3',
+    },
+    totalValue: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#7F5DA3',
+    },
 });

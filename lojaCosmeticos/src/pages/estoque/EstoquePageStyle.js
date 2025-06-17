@@ -53,5 +53,11 @@ export default StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 4,
         elevation: 5,
-    }
+    },
+    nenhumResultado: {
+        textAlign: 'center',
+        marginTop: 20,
+        fontSize: 16,
+        color: '#7F5DA3',
+    },
 });

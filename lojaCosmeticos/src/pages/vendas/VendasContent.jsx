@@ -1,8 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, TextInput, SectionList, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
-import { Feather } from "@expo/vector-icons";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { listarVendas } from "../../storage/VendaStorage";
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    ActivityIndicator,
+    Alert,
+    FlatList,
+    StyleSheet,
+} from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { listarVendas, deletarVenda } from '../../storage/VendaStorage';
 import styles from './VendaPageStyle';
 
 export default function VendasContent() {
@@ -28,11 +37,9 @@ export default function VendasContent() {
     );
 
     const vendasFiltradas = vendas.filter(v => {
-        const nomeUsuario = v.usuario?.nome?.toLowerCase() || '';
         const dataVenda = v.data?.toLowerCase() || '';
         const termo = filtro.toLowerCase();
-
-        return nomeUsuario.includes(termo) || dataVenda.includes(termo);
+        return dataVenda.includes(termo);
     });
 
     if (carregando) {
@@ -44,40 +51,30 @@ export default function VendasContent() {
             <View style={styles.searchContainer}>
                 <TextInput
                     style={styles.searchInput}
-                    placeholder="Digite a data da venda"
-                    placeholderTextColor='#7F5DA3'
+                    placeholder="Filtrar por data"
+                    placeholderTextColor="#7F5DA3"
                     value={filtro}
                     onChangeText={setFiltro}
                 />
-                <Feather name='search' size={24} color='#D1A6FD' />
+                <Feather name="search" size={24} color="#D1A6FD" />
             </View>
 
-            <SectionList
-                sections={[{ title: 'Vendas', data: vendasFiltradas }]}
+            <FlatList
+                data={vendasFiltradas}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <TouchableOpacity
-                        style={styles.itemContainer}
-                        onPress={() => navigation.navigate('Detalhes da Venda', { id: item.id })}
+                        style={cardStyles.card}
+                        onPress={() => navigation.navigate('Detalhes da Venda', { venda: item })}
                     >
-                        <View style={styles.itemContent}>
-                            <Text style={styles.itemText}>Venda {item.data}</Text>
-                            <Text style={styles.itemSubText}>Data: {item.data}</Text>
-                            <Text style={styles.itemSubText}>Items: {item.itemsVenda}</Text>
-                            <Text style={styles.itemSubText}>Total: R$ {item.valorTotal}</Text>
-                        </View>
-                        <View style={styles.iconsContainer}>
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate('Editar Venda', { id: item.id })}
-                            >
-                                <Feather name="edit" size={20} color="#D1A6FD" />
-                            </TouchableOpacity>
+                        <Text style={cardStyles.codigo}>ID: {item.id}</Text>
+                        <Text style={cardStyles.titulo}>Data: {item.data}</Text>
+                        <View style={cardStyles.valorCard}>
+                            <Text style={cardStyles.valor}>Total: R$ {item.valorTotal?.toFixed(2)}</Text>
                         </View>
                     </TouchableOpacity>
                 )}
-                ListEmptyComponent={
-                    <Text style={styles.nenhumResultado}>Nenhuma venda encontrada</Text>
-                }
+                ListEmptyComponent={<Text style={styles.nenhumResultado}>Nenhuma venda encontrada</Text>}
                 showsVerticalScrollIndicator={false}
             />
 
@@ -90,3 +87,37 @@ export default function VendasContent() {
         </View>
     );
 }
+
+const cardStyles = StyleSheet.create({
+    card: {
+        backgroundColor: '#FAF5FF',
+        borderRadius: 16,
+        padding: 20,
+        marginBottom: 16,
+        marginHorizontal: 8,
+        elevation: 3,
+    },
+    codigo: {
+        fontSize: 14,
+        color: '#7F5DA3',
+        marginBottom: 8,
+        fontWeight: '600',
+    },
+    titulo: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#7F5DA3',
+        marginBottom: 12,
+    },
+    valorCard: {
+        backgroundColor: '#D1A6FD',
+        borderRadius: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+    },
+    valor: {
+        fontSize: 16,
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+});

@@ -12,15 +12,14 @@ export default function EstoqueContent() {
     const [produtos, setProdutos] = useState([]);
     const [filtro, setFiltro] = useState('');
 
+    const carregarProdutos = async () => {
+        const lista = await listarProdutos();
+        setProdutos(lista);
+    };
 
     useFocusEffect(
         useCallback(() => {
-            const carregarProdutos = async () => {
-                const lista = await listarProdutos();
-                setProdutos(lista);
-            };
-
-            carregarProdutos();
+            carregarProdutos().then();
         }, [])
     );
 

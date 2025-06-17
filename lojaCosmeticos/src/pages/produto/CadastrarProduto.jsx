@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import {
-    View, Text, TextInput, TouchableOpacity, Alert, ScrollView
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Alert,
+    ScrollView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './CadastrarProdutoStyle';
-import { salvarProduto, listarProdutos } from "../../storage/ProdutoStorage";
+import { salvarProduto } from "../../storage/ProdutoStorage";
 
 export default function CadastrarProduto() {
     const navigation = useNavigation();
@@ -21,16 +25,8 @@ export default function CadastrarProduto() {
         }
 
         try {
-            const produtosExistentes = await listarProdutos();
-
-            // calcula o novo código como o maior + 1
-            const novoCodigo =
-                produtosExistentes.length > 0
-                    ? Math.max(...produtosExistentes.map(p => parseInt(p.codigo))) + 1
-                    : 1;
-
             const novoProduto = {
-                codigo: String(novoCodigo), // pode usar como string ou number, desde que seja consistente
+                codigo: Date.now().toString(),
                 nome: nome.trim(),
                 quantidade: parseInt(quantidade),
                 preco: parseFloat(preco),
@@ -49,8 +45,6 @@ export default function CadastrarProduto() {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.titulo}>Cadastrar Produto</Text>
-
-            {/* Removido campo de código */}
             <TextInput
                 style={styles.input}
                 placeholder="Nome do Produto"
