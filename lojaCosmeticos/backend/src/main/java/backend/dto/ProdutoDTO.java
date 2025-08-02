@@ -1,49 +1,111 @@
 package backend.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 
-@Entity
+import backend.model.Produto;
+
 public class ProdutoDTO {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
     private String nome;
     private String codigo;
-    private Double preco;
     private Integer quantidade;
-    
-    public Long getId() {
-        return id;
+    private Double preco;
+    private String descricao;
+    private String imagem;
+    private LocalDateTime dataAtualizacao;
+
+    public ProdutoDTO() {
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
+
+    public ProdutoDTO(String codigo, String nome, Integer quantidade, Double preco, String descricao, String imagem,
+            LocalDateTime dataAtualizacao) {
+        this.codigo = codigo;
         this.nome = nome;
+        this.quantidade = quantidade;
+        this.preco = preco;
+        this.descricao = descricao;
+        this.imagem = imagem;
+        this.dataAtualizacao = dataAtualizacao;
     }
+
     public String getCodigo() {
         return codigo;
     }
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+
+    public String getNome() {
+        return nome;
     }
-    public Double getPreco() {
-        return preco;
-    }
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
+
     public Integer getQuantidade() {
         return quantidade;
     }
+
+    public Double getPreco() {
+        return preco;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public LocalDateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    // --- Setters ---
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public backend.model.Produto toEntity() {
+        backend.model.Produto produto = new backend.model.Produto(
+                this.codigo,
+                this.nome,
+                this.quantidade,
+                this.preco,
+                this.descricao,
+                this.imagem);
+
+        produto.setDataAtualizacao(this.dataAtualizacao);
+        return produto;
+    }
+
+    public static ProdutoDTO fromEntity(Produto produto) {
+        return new ProdutoDTO(
+                produto.getCodigo(),
+                produto.getNome(),
+                produto.getQuantidade(),
+                produto.getPreco(),
+                produto.getDescricao(),
+                produto.getImagem(),
+                produto.getDataAtualizacao());
     }
 }
