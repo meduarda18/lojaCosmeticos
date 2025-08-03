@@ -1,5 +1,14 @@
 package backend.repository;
 
-public class VendaRepository {
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import backend.model.Venda;
+
+@Repository
+public interface VendaRepository extends JpaRepository<Venda, Long> {
     
+    Optional<Venda> findById(Long id);
+    Optional<Venda> findByDataVendaBetween(LocalDateTime start, LocalDateTime end);
 }
