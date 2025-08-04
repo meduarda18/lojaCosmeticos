@@ -2,12 +2,13 @@ package backend.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -19,12 +20,16 @@ public class Venda {
 
     @ManyToOne
     private Produto produto;
+
+    @Column(nullable = false)
     private Integer quantidade;
 
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
 
     private int parcelas;
+
+    @Column(name = "data_venda", nullable = false, updatable = false)
     private LocalDateTime dataVenda;
 
     public Venda(Produto produto, Integer quantidade, FormaPagamento formaPagamento, int parcelas, LocalDateTime dataVenda) {

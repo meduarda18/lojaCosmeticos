@@ -1,18 +1,19 @@
  package backend.service.impl;
 
-import backend.service.VendaService;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import backend.dto.VendaDTO;
 import backend.model.Produto;
 import backend.model.Venda;
 import backend.repository.ProdutoRepository;
 import backend.repository.VendaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import backend.service.VendaService;
 
 @Service
 public class VendaServiceImpl implements VendaService {
@@ -57,9 +58,6 @@ public class VendaServiceImpl implements VendaService {
 
         return returnDto;
     }
-
-
-
 
     private VendaDTO toDTO(Venda venda) {
         VendaDTO dto = new VendaDTO();
