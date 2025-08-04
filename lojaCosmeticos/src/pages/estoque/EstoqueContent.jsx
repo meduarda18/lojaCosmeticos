@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from 'react';
-import {View, TextInput, Text, SectionList, TouchableOpacity, Alert} from 'react-native';
+import React, {useCallback, useState, useEffect} from 'react';
+import {View, TextInput, Text, SectionList, TouchableOpacity, Alert, Platform} from 'react-native';
 import styles from './EstoquePageStyle';
 import {Feather} from "@expo/vector-icons";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
@@ -7,6 +7,7 @@ import {deletarProduto, listarProdutos} from "../../storage/ProdutoStorage";
 
 export default function EstoqueContent() {
 
+    console.log('Inicializando');
     const navigation = useNavigation();
 
     const [produtos, setProdutos] = useState([]);
@@ -23,29 +24,43 @@ export default function EstoqueContent() {
         }, [])
     );
 
+    useEffect(() => {
+        const debugProdutos = async () => {
+            const lista = await listarProdutos();
+            console.log('[DEBUG] Lista dos produtos no AsyncStorage:', lista);
+        };
+
+    debugProdutos();
+    }, []);
+
     const handleExcluirProduto = (codigo) => {
-        Alert.alert(
-            'Confirmar Exclusão',
-            'Tem certeza que deseja excluir este produto?',
-            [
-                {
-                    text: 'Cancelar', style: 'cancel'
-                },
+        if (Platform.OS === 'web') {
+            if (window.confirm('Tem certeza que deseja excluir este produto?')) {
+                excluir(codigo);
+            }
+        } else {
+            Alert.alert('Confirmar Exclusão', 
+                'Tem certeza que deseja excluir este produto?',
+                [
+                    { text: 'Cancelar', style: 'cancel' },
+                    { text: 'Excluir', style: 'destructive', onPress: () => excluir(codigo) }
+                ],
+                    { cancelable: true }
+            );
+        }
+    };
 
-                {
-                    text: 'Excluir', style: 'destructive',
-                    onPress: async () => {
-                        await deletarProduto(codigo);
-                        await carregarProdutos();
-                    },
-                },
-            ],
-            {cancelable: true}
-        )
-    }
+    const excluir = async (codigo) => {
+        await deletarProduto(codigo);
+        await carregarProdutos();
+    };
+        
 
-    const produtosFiltrados = produtos.filter(
-        p => p.nome.toLowerCase().includes(filtro.toLowerCase()) || p.codigo.toLowerCase().includes(filtro.toLowerCase())
+    const produtosFiltrados = produtos
+    .filter(p => !p._excluido) 
+    .filter(p =>
+        p.nome.toLowerCase().includes(filtro.toLowerCase()) ||
+        p.codigo.toLowerCase().includes(filtro.toLowerCase())
     );
 
     return (
