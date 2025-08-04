@@ -4,6 +4,7 @@ import backend.service.VendaService;
 import backend.dto.VendaDTO;
 import backend.model.Produto;
 import backend.model.Venda;
+import backend.repository.ProdutoRepository;
 import backend.repository.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class VendaServiceImpl implements VendaService {
         Venda salva = vendaRepository.save(venda);
 
         VendaDTO returnDto = new VendaDTO();
-        returnDto.setId(salva.getId());
+        returnDto.setId(String.valueOf(salva.getId()));
         returnDto.setProdutoId(produto.getId().toString());
         returnDto.setProdutoNome(produto.getNome());
         returnDto.setQuantidade(salva.getQuantidade());
@@ -62,8 +63,8 @@ public class VendaServiceImpl implements VendaService {
 
     private VendaDTO toDTO(Venda venda) {
         VendaDTO dto = new VendaDTO();
-        dto.setId(venda.getId());
-        dto.setProdutoId(venda.getProduto().getId());
+        dto.setId(String.valueOf(venda.getId()));
+        dto.setProdutoId(String.valueOf(venda.getProduto().getId()));
         dto.setProdutoNome(venda.getProduto().getNome());
         dto.setQuantidade(venda.getQuantidade());
         dto.setFormaPagamento(venda.getFormaPagamento());

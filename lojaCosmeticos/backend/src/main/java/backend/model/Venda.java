@@ -3,6 +3,8 @@ package backend.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +21,7 @@ public class Venda {
     private Produto produto;
     private Integer quantidade;
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
 
     private int parcelas;
@@ -31,6 +33,10 @@ public class Venda {
         this.formaPagamento = formaPagamento;
         this.parcelas = parcelas;
         this.dataVenda = dataVenda;
+    }
+
+    public Venda() {
+        
     }
 
     public Long getId() {
