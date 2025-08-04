@@ -55,7 +55,6 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoExistente.setQuantidade(produtoDTO.getQuantidade());
         produtoExistente.setPreco(produtoDTO.getPreco());
         produtoExistente.setDescricao(produtoDTO.getDescricao());
-        produtoExistente.setImagem(produtoDTO.getImagem());
 
         Produto produtoAtualizado = produtoRepository.save(produtoExistente);
         return ProdutoDTO.fromEntity(produtoAtualizado);
@@ -82,7 +81,6 @@ public class ProdutoServiceImpl implements ProdutoService {
                 produtoExistente.setQuantidade(produtoParaSincronizar.getQuantidade());
                 produtoExistente.setPreco(produtoParaSincronizar.getPreco());
                 produtoExistente.setDescricao(produtoParaSincronizar.getDescricao());
-                produtoExistente.setImagem(produtoParaSincronizar.getImagem());
                 return produtoRepository.save(produtoExistente);
             } else {
                 return produtoExistente;

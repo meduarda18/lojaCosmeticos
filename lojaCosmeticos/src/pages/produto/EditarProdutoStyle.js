@@ -5,12 +5,6 @@ export default StyleSheet.create({
         padding: 16,
         backgroundColor: "#fff",
     },
-    imagemProduto: {
-        width: "100%",
-        height: 200,
-        marginBottom: 20,
-        borderRadius: 12,
-    },
     inputContainer: {
         marginBottom: 16,
     },

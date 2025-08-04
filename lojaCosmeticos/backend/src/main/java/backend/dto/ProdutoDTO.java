@@ -11,20 +11,18 @@ public class ProdutoDTO {
     private Integer quantidade;
     private Double preco;
     private String descricao;
-    private String imagem;
     private LocalDateTime dataAtualizacao;
 
     public ProdutoDTO() {
     }
 
-    public ProdutoDTO(String codigo, String nome, Integer quantidade, Double preco, String descricao, String imagem,
+    public ProdutoDTO(String codigo, String nome, Integer quantidade, Double preco, String descricao,
             LocalDateTime dataAtualizacao) {
         this.codigo = codigo;
         this.nome = nome;
         this.quantidade = quantidade;
         this.preco = preco;
         this.descricao = descricao;
-        this.imagem = imagem;
         this.dataAtualizacao = dataAtualizacao;
     }
 
@@ -46,10 +44,6 @@ public class ProdutoDTO {
 
     public String getDescricao() {
         return descricao;
-    }
-
-    public String getImagem() {
-        return imagem;
     }
 
     public LocalDateTime getDataAtualizacao() {
@@ -77,10 +71,6 @@ public class ProdutoDTO {
         this.descricao = descricao;
     }
 
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
     public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
@@ -91,8 +81,7 @@ public class ProdutoDTO {
                 this.nome,
                 this.quantidade,
                 this.preco,
-                this.descricao,
-                this.imagem);
+                this.descricao);
 
         produto.setDataAtualizacao(this.dataAtualizacao);
         return produto;
@@ -105,7 +94,6 @@ public class ProdutoDTO {
                 produto.getQuantidade(),
                 produto.getPreco(),
                 produto.getDescricao(),
-                produto.getImagem(),
                 produto.getDataAtualizacao());
     }
 }

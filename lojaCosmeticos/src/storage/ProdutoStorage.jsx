@@ -4,7 +4,7 @@ const STORAGE_KEY = 'produtos';
 
 export async function salvarProduto(produto) {
     const produtos = await listarProdutos();
-    produtos.push(produto);
+    produtos.push({...produto, _sincronizado: false});
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(produtos));
 }
 
@@ -22,6 +22,21 @@ export async function deletarProduto(codigo) {
 export async function atualizarProduto(produtoAtualizado) {
     const produtos = await listarProdutos();
     const atualizados = produtos.map(
-        p => p.codigo === produtoAtualizado.codigo ? produtoAtualizado : p);
+        p => p.codigo === produtoAtualizado.codigo ? {...produtoAtualizado, _sincronizado: false} : p);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(atualizados));
+}
+
+export async function listarProdutosPendentes() {
+  const produtos = await listarProdutos();
+  return produtos.filter(p => p._sincronizado === false);
+}
+
+export async function marcarProdutoSincronizado(codigo) {
+  const produtos = await listarProdutos();
+  const atualizados = produtos.map(p =>
+    p.codigo === codigo
+      ? { ...p, _sincronizado: true }
+      : p
+  );
+  await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(atualizados));
 }

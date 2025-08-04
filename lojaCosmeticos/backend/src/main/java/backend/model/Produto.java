@@ -27,8 +27,6 @@ public class Produto implements Serializable {
     @Lob
     private String descricao;
 
-    private String imagem;
-
     @Column(name = "data_criacao", nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
 
@@ -38,13 +36,12 @@ public class Produto implements Serializable {
     public Produto() {
     }
 
-    public Produto(String codigo, String nome, Integer quantidade, Double preco, String descricao, String imagem) {
+    public Produto(String codigo, String nome, Integer quantidade, Double preco, String descricao) {
         this.codigo = codigo;
         this.nome = nome;
         this.quantidade = quantidade;
         this.preco = preco;
         this.descricao = descricao;
-        this.imagem = imagem;
     }
 
     public Long getId() {
@@ -95,14 +92,6 @@ public class Produto implements Serializable {
         this.descricao = descricao;
     }
 
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -139,7 +128,6 @@ public class Produto implements Serializable {
                 ", quantidade=" + quantidade +
                 ", preco=" + preco +
                 ", descricao='" + descricao + '\'' +
-                ", imagem='" + imagem + '\'' +
                 ", dataCriacao=" + dataCriacao +
                 ", dataAtualizacao=" + dataAtualizacao +
                 '}';

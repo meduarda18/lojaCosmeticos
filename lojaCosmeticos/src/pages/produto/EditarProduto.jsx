@@ -23,7 +23,6 @@ export default function EditarProduto() {
   const [quantidade, setQuantidade] = useState("");
   const [preco, setPreco] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [imagem, setImagem] = useState("");
 
   useEffect(() => {
     const carregarProduto = async () => {
@@ -38,7 +37,6 @@ export default function EditarProduto() {
           setQuantidade(produto.quantidade.toString());
           setPreco(produto.preco.toString().replace(".", ","));
           setDescricao(produto.descricao || "");
-          setImagem(produto.imagem || "");
         }
       } catch (erro) {
         console.error("Erro ao carregar produto para edição:", erro);
@@ -71,7 +69,6 @@ export default function EditarProduto() {
         quantidade: parseInt(quantidade),
         preco: parseFloat(preco.replace(",", ".")),
         descricao,
-        imagem,
       };
 
       await AsyncStorage.setItem("produtos", JSON.stringify(lista));
@@ -88,9 +85,6 @@ export default function EditarProduto() {
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
     >
-      {imagem ? (
-        <Image source={{ uri: imagem }} style={styles.imagemProduto} />
-      ) : null}
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Código</Text>
