@@ -15,8 +15,14 @@ export async function listarProdutos() {
 
 export async function deletarProduto(codigo) {
     const produtos = await listarProdutos();
-    const atualizados = produtos.filter(p => p.codigo !== codigo);
+    const atualizados = produtos.map(p => 
+        p.codigo === codigo
+            ? { ...p, _excluido: true, _sincronizado: false }
+            : p
+    );
+
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(atualizados));
+    console.log('[deletarProduto] Marcando como excluído o produto de código:', codigo);
 }
 
 export async function atualizarProduto(produtoAtualizado) {
